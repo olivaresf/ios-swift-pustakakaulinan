@@ -1,6 +1,6 @@
 # Pustaka Kaulinan
 
-Pustaka Kaulinan is an app to track your favorite games. This app demonstrates SwiftUI framework capability to build an iOS app. 
+Pustaka Kaulinan is an app to track your favorite games. The purpose of this app is to pass the final submission of a course and to demonstrates SwiftUI framework capability to build an iOS app. 
 
 ## Screenshots
 
