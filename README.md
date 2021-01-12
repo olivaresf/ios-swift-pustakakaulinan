@@ -4,8 +4,13 @@ Pustaka Kaulinan is an app to track your favorite games. The purpose of this app
 
 ## Screenshots
 
-| Home | Explore |
-| ![](screenshots/Home.png) | ![](screenshots/Explore.png) |
+<p float="left">
+  <img src="screenshots/Home.png" width="300" />
+  <img src="screenshots/Explore.png" width="300" /> 
+  <img src="screenshots/Favorite.png" width="300" />
+  <img src="screenshots/Search.png" width="300" />
+  <img src="screenshots/Detail.png" width="300" />
+</p>
 
 ## Getting Started
 
