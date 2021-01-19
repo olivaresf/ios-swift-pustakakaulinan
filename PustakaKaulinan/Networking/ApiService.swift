@@ -28,12 +28,16 @@ class ApiService {
 				return
 			}
 			
-			if let data = possibleData {
-				let result = Result {
-					try JSONDecoder().decode(T.self, from: data)
-				}
-				completion(result)
+			guard let data = possibleData else {
+				// This scenario was never considered.
+				// If this was my app, I'd send back an error using an enum.
+				return
 			}
+			
+			let result = Result {
+				try JSONDecoder().decode(T.self, from: data)
+			}
+			completion(result)
 		}
 		
 		dataTask.resume()
