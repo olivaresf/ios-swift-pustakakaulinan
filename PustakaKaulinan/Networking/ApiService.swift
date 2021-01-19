@@ -22,8 +22,9 @@ class ApiService {
 		let url = URL(string: urlString)!
 		let request = URLRequest(url: url)
 		let dataTask = sessionManager.dataTask(with: request) { possibleData, possibleResponse, possibleError in
-			if let error = possibleError {
-				completion(.failure(error))
+			
+			guard possibleError == nil else {
+				completion(.failure(possibleError!))
 				return
 			}
 			
