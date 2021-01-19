@@ -24,10 +24,10 @@ class ApiService {
   }
   
   private func loadDataFromUrl<T: Codable>(
-    urlRequest: String,
+    urlString: String,
     completion: @escaping (Result<T, Error>) -> Void
   ) {
-    if let url = loadUrl(url: urlRequest) {
+    if let url = loadUrl(url: urlString) {
       sessionManager.dataTask(with: url) { data, response, error in
         if let error = error {
           completion(.failure(error))
@@ -47,7 +47,7 @@ class ApiService {
   func loadGenreList(
     completion: @escaping (Result<GenreResponse, Error>) -> Void
   ) {
-    loadDataFromUrl(urlRequest: ApiConstant.genres, completion: completion)
+    loadDataFromUrl(urlString: ApiConstant.genres, completion: completion)
   }
   
   func loadGenreDetail(
@@ -55,7 +55,7 @@ class ApiService {
     completion: @escaping (Result<GenreResponse.Genre, Error>) -> Void
   ) {
     loadDataFromUrl(
-      urlRequest: "\(ApiConstant.genres)/\(genreID)",
+      urlString: "\(ApiConstant.genres)/\(genreID)",
       completion: completion
     )
   }
@@ -68,23 +68,23 @@ class ApiService {
     mostPopularRacingGamesCompletion: @escaping (Result<GamesResponse, Error>) -> Void
   ) {
     loadDataFromUrl(
-      urlRequest: ApiConstant.upcomingGames,
+      urlString: ApiConstant.upcomingGames,
       completion: upcomingGamesCompletion
     )
     loadDataFromUrl(
-      urlRequest: ApiConstant.highestRatedGames,
+      urlString: ApiConstant.highestRatedGames,
       completion: highestRatedGamesCompletion
     )
     loadDataFromUrl(
-      urlRequest: ApiConstant.newestReleasedGames,
+      urlString: ApiConstant.newestReleasedGames,
       completion: newestReleasedGamesCompletion
     )
     loadDataFromUrl(
-      urlRequest: ApiConstant.mostPopularPCGames,
+      urlString: ApiConstant.mostPopularPCGames,
       completion: mostPopularPCGamesCompletion
     )
     loadDataFromUrl(
-      urlRequest: ApiConstant.mostPopularRacingGames,
+      urlString: ApiConstant.mostPopularRacingGames,
       completion: mostPopularRacingGamesCompletion
     )
   }
@@ -94,7 +94,7 @@ class ApiService {
     completion: @escaping (Result<GamesResponse.Games, Error>) -> Void
   ) {
     loadDataFromUrl(
-      urlRequest: "\(ApiConstant.games)/\(gameId)",
+      urlString: "\(ApiConstant.games)/\(gameId)",
       completion: completion
     )
   }
@@ -103,21 +103,21 @@ class ApiService {
     url: String,
     completion: @escaping (Result<GamesResponse, Error>) -> Void
   ) {
-    loadDataFromUrl(urlRequest: url, completion: completion)
+    loadDataFromUrl(urlString: url, completion: completion)
   }
   
   func loadGamesBySearch(
     url: String,
     completion: @escaping (Result<GamesResponse, Error>) -> Void
   ) {
-    loadDataFromUrl(urlRequest: url, completion: completion)
+    loadDataFromUrl(urlString: url, completion: completion)
   }
   
   func loadGameScreenshots(
     url: String,
     completion: @escaping (Result<GameScreenshotResponse, Error>) -> Void
   ) {
-    loadDataFromUrl(urlRequest: url, completion: completion)
+    loadDataFromUrl(urlString: url, completion: completion)
   }
 }
 
