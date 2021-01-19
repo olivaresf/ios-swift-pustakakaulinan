@@ -14,34 +14,27 @@ import Foundation
 class ApiService {
   private let sessionManager = URLSession.shared
   
-  private func loadUrl(url: String) -> URLRequest? {
-    guard let url = URL(string: url) else {
-      print("Please input a valid URL")
-      return nil
-    }
-    
-    return URLRequest(url: url)
-  }
-  
   private func loadDataFromUrl<T: Codable>(
     urlString: String,
     completion: @escaping (Result<T, Error>) -> Void
   ) {
-    if let url = loadUrl(url: urlString) {
-      sessionManager.dataTask(with: url) { data, response, error in
-        if let error = error {
-          completion(.failure(error))
-          return
-        }
-        
-        if let data = data {
-          let result = Result {
-            try JSONDecoder().decode(T.self, from: data)
-          }
-          completion(result)
-        }
-      }.resume()
-    }
+		
+		let url = URL(string: urlString)!
+		let request = URLRequest(url: url)
+		sessionManager.dataTask(with: url) { data, response, error in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+			
+			if let data = data {
+				let result = Result {
+					try JSONDecoder().decode(T.self, from: data)
+				}
+				completion(result)
+			}
+		}.resume()
+    
   }
   
   func loadGenreList(
