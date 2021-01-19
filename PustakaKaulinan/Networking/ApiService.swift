@@ -14,40 +14,41 @@ import Foundation
 class ApiService {
   private let sessionManager = URLSession.shared
   
-  private func loadUrl(url: String) -> URLRequest? {
-    guard let url = URL(string: url) else {
-      print("Please input a valid URL")
-      return nil
-    }
-    
-    return URLRequest(url: url)
-  }
-  
   private func loadDataFromUrl<T: Codable>(
-    urlRequest: String,
+    urlString: String,
     completion: @escaping (Result<T, Error>) -> Void
   ) {
-    if let url = loadUrl(url: urlRequest) {
-      sessionManager.dataTask(with: url) { data, response, error in
-        if let error = error {
-          completion(.failure(error))
-          return
-        }
-        
-        if let data = data {
-          let result = Result {
-            try JSONDecoder().decode(T.self, from: data)
-          }
-          completion(result)
-        }
-      }.resume()
-    }
+		
+		let url = URL(string: urlString)!
+		let request = URLRequest(url: url)
+		let dataTask = sessionManager.dataTask(with: request) { possibleData, possibleResponse, possibleError in
+			
+			guard possibleError == nil else {
+				completion(.failure(possibleError!))
+				return
+			}
+			
+			guard let data = possibleData else {
+				// This scenario was never considered.
+				// If this was my app, I'd send back an error using an enum.
+				return
+			}
+			
+			// Love this! <3
+			let result = Result {
+				try JSONDecoder().decode(T.self, from: data)
+			}
+			
+			completion(result)
+		}
+		
+		dataTask.resume()
   }
   
   func loadGenreList(
     completion: @escaping (Result<GenreResponse, Error>) -> Void
   ) {
-    loadDataFromUrl(urlRequest: ApiConstant.genres, completion: completion)
+    loadDataFromUrl(urlString: ApiConstant.genres, completion: completion)
   }
   
   func loadGenreDetail(
@@ -55,7 +56,7 @@ class ApiService {
     completion: @escaping (Result<GenreResponse.Genre, Error>) -> Void
   ) {
     loadDataFromUrl(
-      urlRequest: "\(ApiConstant.genres)/\(genreID)",
+      urlString: "\(ApiConstant.genres)/\(genreID)",
       completion: completion
     )
   }
@@ -68,23 +69,23 @@ class ApiService {
     mostPopularRacingGamesCompletion: @escaping (Result<GamesResponse, Error>) -> Void
   ) {
     loadDataFromUrl(
-      urlRequest: ApiConstant.upcomingGames,
+      urlString: ApiConstant.upcomingGames,
       completion: upcomingGamesCompletion
     )
     loadDataFromUrl(
-      urlRequest: ApiConstant.highestRatedGames,
+      urlString: ApiConstant.highestRatedGames,
       completion: highestRatedGamesCompletion
     )
     loadDataFromUrl(
-      urlRequest: ApiConstant.newestReleasedGames,
+      urlString: ApiConstant.newestReleasedGames,
       completion: newestReleasedGamesCompletion
     )
     loadDataFromUrl(
-      urlRequest: ApiConstant.mostPopularPCGames,
+      urlString: ApiConstant.mostPopularPCGames,
       completion: mostPopularPCGamesCompletion
     )
     loadDataFromUrl(
-      urlRequest: ApiConstant.mostPopularRacingGames,
+      urlString: ApiConstant.mostPopularRacingGames,
       completion: mostPopularRacingGamesCompletion
     )
   }
@@ -94,7 +95,7 @@ class ApiService {
     completion: @escaping (Result<GamesResponse.Games, Error>) -> Void
   ) {
     loadDataFromUrl(
-      urlRequest: "\(ApiConstant.games)/\(gameId)",
+      urlString: "\(ApiConstant.games)/\(gameId)",
       completion: completion
     )
   }
@@ -103,21 +104,21 @@ class ApiService {
     url: String,
     completion: @escaping (Result<GamesResponse, Error>) -> Void
   ) {
-    loadDataFromUrl(urlRequest: url, completion: completion)
+    loadDataFromUrl(urlString: url, completion: completion)
   }
   
   func loadGamesBySearch(
     url: String,
     completion: @escaping (Result<GamesResponse, Error>) -> Void
   ) {
-    loadDataFromUrl(urlRequest: url, completion: completion)
+    loadDataFromUrl(urlString: url, completion: completion)
   }
   
   func loadGameScreenshots(
     url: String,
     completion: @escaping (Result<GameScreenshotResponse, Error>) -> Void
   ) {
-    loadDataFromUrl(urlRequest: url, completion: completion)
+    loadDataFromUrl(urlString: url, completion: completion)
   }
 }
 
