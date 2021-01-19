@@ -34,9 +34,11 @@ class ApiService {
 				return
 			}
 			
+			// Love this! <3
 			let result = Result {
 				try JSONDecoder().decode(T.self, from: data)
 			}
+			
 			completion(result)
 		}
 		
