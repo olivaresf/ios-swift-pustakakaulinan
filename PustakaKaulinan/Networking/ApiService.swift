@@ -21,7 +21,7 @@ class ApiService {
 		
 		let url = URL(string: urlString)!
 		let request = URLRequest(url: url)
-		sessionManager.dataTask(with: request) { data, response, error in
+		let dataTask = sessionManager.dataTask(with: request) { data, response, error in
 			if let error = error {
 				completion(.failure(error))
 				return
@@ -33,8 +33,9 @@ class ApiService {
 				}
 				completion(result)
 			}
-		}.resume()
-    
+		}
+		
+		dataTask.resume()
   }
   
   func loadGenreList(
