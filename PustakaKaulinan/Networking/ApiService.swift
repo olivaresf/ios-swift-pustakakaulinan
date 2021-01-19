@@ -21,7 +21,7 @@ class ApiService {
 		
 		let url = URL(string: urlString)!
 		let request = URLRequest(url: url)
-		sessionManager.dataTask(with: url) { data, response, error in
+		sessionManager.dataTask(with: request) { data, response, error in
 			if let error = error {
 				completion(.failure(error))
 				return
