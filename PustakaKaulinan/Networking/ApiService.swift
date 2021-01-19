@@ -21,13 +21,13 @@ class ApiService {
 		
 		let url = URL(string: urlString)!
 		let request = URLRequest(url: url)
-		let dataTask = sessionManager.dataTask(with: request) { data, response, error in
-			if let error = error {
+		let dataTask = sessionManager.dataTask(with: request) { possibleData, possibleResponse, possibleError in
+			if let error = possibleError {
 				completion(.failure(error))
 				return
 			}
 			
-			if let data = data {
+			if let data = possibleData {
 				let result = Result {
 					try JSONDecoder().decode(T.self, from: data)
 				}
